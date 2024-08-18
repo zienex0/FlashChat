@@ -14,12 +14,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'welcome_screen',
+      initialRoute: WelcomeScreen.routeId,
       routes: {
-        'welcome_screen': (context) => WelcomeScreen(),
-        'registration_screen': (context) => RegistrationScreen(),
-        'login_screen': (context) => LoginScreen(),
-        'chat_screen': (context) => ChatScreen()
+        WelcomeScreen.routeId: (context) => const WelcomeScreen(),
+        RegistrationScreen.routeId: (context) => const RegistrationScreen(),
+        LoginScreen.routeId: (context) => const LoginScreen(),
+        ChatScreen.routeId: (context) => const ChatScreen()
       },
     );
   }
