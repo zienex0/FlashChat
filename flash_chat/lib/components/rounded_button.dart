@@ -7,6 +7,8 @@ class RoundedButton extends StatelessWidget {
       required this.buttonText,
       required this.onPressed,
       this.borderRadius = 5.0,
+      this.horizontalPadding = 20,
+      this.verticalPadding = 10,
       Key? key})
       : super(key: key);
 
@@ -16,6 +18,8 @@ class RoundedButton extends StatelessWidget {
   final String buttonText;
 
   final double borderRadius;
+  final double horizontalPadding;
+  final double verticalPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,8 @@ class RoundedButton extends StatelessWidget {
         onPressed();
       },
       color: color,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding, vertical: verticalPadding),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
