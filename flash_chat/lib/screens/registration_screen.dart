@@ -17,6 +17,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   String email = '';
   String password = '';
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +83,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     textColor: Colors.white,
                     buttonText: 'Register',
                     onPressed: () async {
-                      // TODO create the user
-                      try {
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
-                        Navigator.pushNamed(context, ChatScreen.routeId);
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          print('The password is too weak');
-                        } else if (e.code == 'email-already-in-use') {
-                          print('The account already exists');
+                      // TODO create a spinner with the isLoading bool while the user waits
+                      if (email.isNotEmpty && password.isNotEmpty) {
+                        try {
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+
+                          Navigator.pushNamed(context, ChatScreen.routeId);
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            print('The password is too weak');
+                          } else if (e.code == 'email-already-in-use') {
+                            print('The account already exists');
+                          }
+                        } catch (e) {
+                          print(e);
                         }
-                      } catch (e) {
-                        print(e);
+                      } else {
+                        print('Empty email and password');
                       }
                     },
                   ),

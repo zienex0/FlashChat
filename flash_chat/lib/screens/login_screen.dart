@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeId = 'login_screen';
@@ -11,8 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? email;
-  String? password;
+  final _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.black,
                       textColor: Colors.white,
                       buttonText: 'Login',
-                      onPressed: () {
+                      onPressed: () async {
                         // TODO login the user
+                        if (email.isNotEmpty && password.isNotEmpty) {
+                          try {
+                            await _auth.signInWithEmailAndPassword(
+                                email: email, password: password);
+                            Navigator.pushNamed(context, ChatScreen.routeId);
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('No user found for that email.');
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password provided for that user.');
+                            }
+                          }
+                        }
                       }),
                 )
               ],
