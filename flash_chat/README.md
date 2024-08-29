@@ -1,3 +1,3 @@
-# flash_chat
+# FlashChat
 
-A new Flutter project.
+Fairly simple hands on project to understand realtime database connection with Flutter
